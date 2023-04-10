@@ -23,6 +23,10 @@ public class Transfer {
 
     String nameRecipient;
 
+    String phoneSender;
+
+    String phoneRecipient;
+
     @Enumerated(EnumType.STRING)
     Status status;
 
