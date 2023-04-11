@@ -5,6 +5,7 @@ import com.example.money_transfer.service.CashboxService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
@@ -23,5 +24,12 @@ public class CashboxController {
         List<Cashbox> cashboxList = cashboxService.findAll();
         model.addAttribute("cashboxList", cashboxList);
         return "list-cashboxes";
+    }
+
+    @GetMapping("/{id}")
+    public String getCashbox(@PathVariable long id, Model model) {
+        Cashbox cashbox = cashboxService.findById(id);
+        model.addAttribute("cashbox", cashbox);
+        return "cashbox";
     }
 }
