@@ -2,9 +2,11 @@ package com.example.money_transfer.model;
 
 import com.example.money_transfer.enums.Status;
 import com.example.money_transfer.enums.Valuta;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "tb_transfers")
@@ -38,6 +40,10 @@ public class Transfer {
     Valuta valuta;
 
     String comment;
+
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss:S")
+    @Column(nullable = false)
+    Date createdDate;
 
     @ManyToOne
     @JoinColumn(name = "cashbox_id", referencedColumnName = "id")

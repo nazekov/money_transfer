@@ -1,8 +1,11 @@
 package com.example.money_transfer.model;
 
+import com.example.money_transfer.utils.DateUtil;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,6 +23,20 @@ public class Cashbox {
 
     double balance;
 
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss:S")
+    @Column(nullable = false)
+    Date startDate;
+
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss:S")
+    @Column(nullable = false)
+    Date endDate;
+
     @OneToMany(mappedBy = "cashbox", cascade = CascadeType.ALL)
     List<Transfer> transfers;
+
+    @PrePersist
+    private void setDates() {
+        setStartDate(new Date());
+        setEndDate(DateUtil.getInstance().getEndDate());
+    }
 }
