@@ -9,4 +9,6 @@ public interface CashboxService {
     Cashbox save(Cashbox cashbox);
 
     List<Cashbox> findAll();
+
+    Cashbox findById(long id);
 }
