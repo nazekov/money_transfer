@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div th:each="cashbox : ${cashboxList}">
+
+<!--        <a th:href="@{/cashbox/{id}(id=${cashbox.getId()})}" th:text="'Cashbox: ' + ${cashbox.getId()}">test</a>-->
+        <a th:href="@{/cashbox/{id}(id=${cashbox.id})}" th:text="'Cashbox: ' + ${cashbox.id}">test</a>
+
+    </div>
+</body>
+</html>
