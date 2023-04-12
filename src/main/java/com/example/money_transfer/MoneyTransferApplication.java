@@ -17,7 +17,7 @@ public class MoneyTransferApplication {
         SpringApplication.run(MoneyTransferApplication.class, args);
     }
 
-    @Bean
+//    @Bean
     public CommandLineRunner run(CashboxService cashboxService) {
         return args -> {
             for (int i = 0; i < 2; i++) {

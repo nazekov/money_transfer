@@ -22,6 +22,8 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    Long number;
+
     String nameSender;
 
     String nameRecipient;

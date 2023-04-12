@@ -28,7 +28,7 @@ public class CashboxServiceImpl implements CashboxService {
 
     @Override
     public Cashbox findById(long id) {
-        return cashboxRepository.findByIdAndEndDateEquals(id, DateUtil.getInstance().getEndDate())
+        return cashboxRepository.findById(id)
                 .orElseThrow(
                     () -> new RuntimeException("Cashbox not found")
                 );

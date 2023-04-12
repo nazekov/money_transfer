@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Transfer</title>
+</head>
+<body>
+    <h1>Создать перевод</h1>
+    <p th:text="'Касса ID: ' + ${cashbox.id}" />
+    <form th:object="${transfer}" method="post" th:action="@{/transfer/save/{cashboxId}(cashboxId=${cashbox.id})}">
+        <p>
+            <label for="nameSender">Имя отправителя</label>
+            <input type="text" th:field="*{nameSender}" id="nameSender" name="nameSender" placeholder="Имя отправителя">
+        </p>
+        <p>
+            <label for="nameRecipient">Имя получателя</label>
+            <input type="text" th:field="*{nameRecipient}" id="nameRecipient" name="nameRecipient" placeholder="Имя получателя">
+        </p>
+        <p>
+            <label for="phoneSender">Телефон отправителя</label>
+            <input type="text" th:field="*{phoneSender}" id="phoneSender" name="phoneSender" placeholder="Телефон отправителя">
+        </p>
+        <p>
+            <label for="phoneRecipient">Телефон получателя</label>
+            <input type="text" th:field="*{phoneRecipient}" id="phoneRecipient" name="phoneRecipient" placeholder="Телефон получателя">
+        </p>
+        <p>
+            <label for="money">Сумма перевода</label>
+            <input type="text" th:field="*{money}" id="money" name="money" placeholder="Сумма перевода">
+        </p>
+
+<!--        <form>-->
+            <p>Выберите валюту:</p>
+            <div>
+                <input type="radio" th:field="*{valuta}" id="som"
+                       name="valuta" value="SOM">
+                <label for="som">Som</label>
+
+                <input type="radio" th:field="*{valuta}" id="dollar"
+                       name="valuta" value="DOLLAR">
+                <label for="dollar">Dollar</label>
+
+                <input type="radio" th:field="*{valuta}" id="rub"
+                       name="valuta" value="RUBLE">
+                <label for="rub">Ruble</label>
+            </div>
+<!--            <div>-->
+<!--                <button type="submit">Отправить</button>-->
+<!--            </div>-->
+<!--        </form>-->
+        <p>
+            <label for="comment">Комментарий</label>
+            <input type="text" th:field="*{comment}" id="comment" name="comment" placeholder="Комментарий">
+        </p>
+        <button type="submit">Отправить</button>
+    </form>
+
+</body>
+</html>

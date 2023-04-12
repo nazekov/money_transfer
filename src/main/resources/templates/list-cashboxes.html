@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -8,8 +8,7 @@
 
     <div th:each="cashbox : ${cashboxList}">
 
-<!--        <a th:href="@{/cashbox/{id}(id=${cashbox.getId()})}" th:text="'Cashbox: ' + ${cashbox.getId()}">test</a>-->
-        <a th:href="@{/cashbox/{id}(id=${cashbox.id})}" th:text="'Cashbox: ' + ${cashbox.id}">test</a>
+        <a th:href="@{/cashbox/{id}(id=${cashbox.id})}" th:text="'Cashbox: ' + ${cashbox.id}"></a>
 
     </div>
 </body>
