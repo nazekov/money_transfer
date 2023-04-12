@@ -21,22 +21,9 @@ public class Cashbox {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    double balance;
-
-    @JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss:S")
-    @Column(nullable = false)
-    Date startDate;
-
-    @JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss:S")
-    @Column(nullable = false)
-    Date endDate;
-
     @OneToMany(mappedBy = "cashbox", cascade = CascadeType.ALL)
     List<Transfer> transfers;
 
-    @PrePersist
-    private void setDates() {
-        setStartDate(new Date());
-        setEndDate(DateUtil.getInstance().getEndDate());
-    }
+    @OneToMany(mappedBy = "cashbox", cascade = CascadeType.ALL)
+    List<Balance> balances;
 }
