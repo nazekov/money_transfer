@@ -34,7 +34,7 @@ public class CashboxController {
         return "cashbox";
     }
 
-    @GetMapping("/form/{cashboxId}")
+    @GetMapping("/form-send/{cashboxId}")
     public String getViewForCreateTransfer(@PathVariable long cashboxId, Model model) {
         Cashbox cashbox = cashboxService.findById(cashboxId);
         model.addAttribute("cashbox", cashbox);
