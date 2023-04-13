@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -20,7 +21,7 @@ public class Balance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    double balance;
+    BigDecimal balance;
 
     @JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss:S")
     @Column(nullable = false)

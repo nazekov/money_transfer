@@ -28,6 +28,7 @@ public class TransferController {
                                         @PathVariable Long cashboxId) {
         transfer = transferService.save(transfer, cashboxId);
         System.out.println("Transfer: " + transfer);
-        return "redirect:/cashbox/" + cashboxId;
+//        return "redirect:/cashbox/" + cashboxId;
+        return "transfer-successful";
     }
 }

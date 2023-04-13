@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 @SpringBootApplication
@@ -22,7 +23,7 @@ public class MoneyTransferApplication {
         return args -> {
             for (int i = 0; i < 2; i++) {
                 Balance balance = new Balance();
-                balance.setBalance(100000);
+                balance.setBalance(new BigDecimal(100000));
 
                 Cashbox cashbox = new Cashbox();
                 cashbox.setBalances(Arrays.asList(balance));

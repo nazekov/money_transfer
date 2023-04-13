@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
@@ -37,7 +38,11 @@ public class Transfer {
 
     Long uniqueCode;
 
-    double money;
+    BigDecimal money;
+
+    BigDecimal commission;
+
+    BigDecimal totalMoney;
 
     @Enumerated(EnumType.STRING)
     Valuta valuta;
