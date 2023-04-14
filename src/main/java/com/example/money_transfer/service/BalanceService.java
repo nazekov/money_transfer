@@ -10,5 +10,7 @@ public interface BalanceService {
 
     Balance save(Balance balance);
 
-    Balance update(Long cashboxId, BigDecimal totalTransferMoney);
+    Balance increase(Long cashboxId, BigDecimal money);
+
+    Balance decrease(Long cashboxId, BigDecimal money);
 }

@@ -36,13 +36,25 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     @Override
-    public Balance update(Long cashboxId, BigDecimal totalTransferMoney) {
+    public Balance increase(Long cashboxId, BigDecimal money) {
         Balance oldBalance = findActualBalanceByCashboxId(cashboxId);
         oldBalance.setEndDate(new Date());
         save(oldBalance);
 
         Balance newBalance = new Balance();
-        newBalance.setBalance(oldBalance.getBalance().add(totalTransferMoney));
+        newBalance.setBalance(oldBalance.getBalance().add(money));
+        newBalance.setCashbox(cashboxService.findById(cashboxId));
+        return save(newBalance);
+    }
+
+    @Override
+    public Balance decrease(Long cashboxId, BigDecimal money) {
+        Balance oldBalance = findActualBalanceByCashboxId(cashboxId);
+        oldBalance.setEndDate(new Date());
+        save(oldBalance);
+
+        Balance newBalance = new Balance();
+        newBalance.setBalance(oldBalance.getBalance().subtract(money));
         newBalance.setCashbox(cashboxService.findById(cashboxId));
         return save(newBalance);
     }

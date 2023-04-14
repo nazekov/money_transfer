@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>Получить деньги</h1>
+    <p th:text="'Касса ID: ' + ${cashbox.id}"/>
+    <form th:action="@{'/transfer/update/' + ${cashbox.id}}" method="post">
+        <p>
+            <label for="code">Введите уникальный код</label>
+            <input type="text" id="code" name="ucode" placeholder="уникальный код" required="required">
+        </p>
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>

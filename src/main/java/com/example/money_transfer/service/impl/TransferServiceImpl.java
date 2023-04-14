@@ -1,7 +1,7 @@
 package com.example.money_transfer.service.impl;
 
 import com.example.money_transfer.enums.Status;
-import com.example.money_transfer.model.Balance;
+import com.example.money_transfer.mapper.TransferMapper;
 import com.example.money_transfer.model.Cashbox;
 import com.example.money_transfer.model.Transfer;
 import com.example.money_transfer.repository.TransferRepository;
@@ -9,10 +9,8 @@ import com.example.money_transfer.service.BalanceService;
 import com.example.money_transfer.service.CashboxService;
 import com.example.money_transfer.service.TransferService;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 @Service
 public class TransferServiceImpl implements TransferService {
@@ -52,12 +50,43 @@ public class TransferServiceImpl implements TransferService {
         transfer.setTotalMoney(transfer.getMoney().add(transfer.getCommission()));
 
         transferRepository.save(transfer);
-        balanceService.update(cashboxId, transfer.getTotalMoney());
+        balanceService.increase(cashboxId, transfer.getTotalMoney());
         return transfer;
     }
 
     @Override
-    public Transfer changeStatus() {
+    public Transfer update(Long cashboxId, String code) {
+        Long ucode = Long.valueOf(code);
+
+        if (isAvailableTransfer(ucode)) {
+            Transfer transferFound = transferRepository
+                            .findByStatusAndUniqueCodeEquals(Status.CREATED, ucode)
+                            .orElseThrow(
+                                () -> new RuntimeException("transfer not found")
+                            );
+            BigDecimal moneyTransfer = transferFound.getMoney();
+
+            balanceService.decrease(transferFound.getCashbox().getId(), moneyTransfer);
+
+            Transfer transfer = TransferMapper.INSTANCE.clone(transferFound);
+            transfer.setCreatedDate(new Date());
+            transfer.setStatus(Status.COMPLETED);
+            transfer.setCashbox(cashboxService.findById(cashboxId));
+
+            if (!cashboxId.equals(transferFound.getCashbox().getId())) {
+                balanceService.increase(cashboxId, moneyTransfer); // money came to cashbox
+                balanceService.decrease(cashboxId, moneyTransfer); // client got money
+            }
+
+            // after save new state transfer to db
+            return transferRepository.save(transfer);
+        }
+
         return null;
+    }
+
+    private boolean isAvailableTransfer(Long ucode) {
+        return transferRepository.existsByUniqueCode(ucode) &&
+                !transferRepository.existsByUniqueCodeAndStatusEquals(ucode, Status.COMPLETED);
     }
 }

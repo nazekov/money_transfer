@@ -42,5 +42,10 @@ public class CashboxController {
         return "add-transfer";
     }
 
-
+    @GetMapping("/form-get/{cashboxId}")
+    public String getViewForGetMoney(@PathVariable long cashboxId, Model model) {
+        Cashbox cashbox = cashboxService.findById(cashboxId);
+        model.addAttribute("cashbox", cashbox);
+        return "form-get-money";
+    }
 }

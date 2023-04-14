@@ -1,14 +1,11 @@
 package com.example.money_transfer.controller;
 
-import com.example.money_transfer.enums.Status;
 import com.example.money_transfer.model.Transfer;
 import com.example.money_transfer.service.CashboxService;
 import com.example.money_transfer.service.TransferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Date;
 
 @Controller
 @RequestMapping("/transfer")
@@ -25,10 +22,21 @@ public class TransferController {
 
     @PostMapping("/save/{cashboxId}")
     public String save(@ModelAttribute Transfer transfer,
-                                        @PathVariable Long cashboxId) {
+                        @PathVariable Long cashboxId) {
         transfer = transferService.save(transfer, cashboxId);
         System.out.println("Transfer: " + transfer);
-//        return "redirect:/cashbox/" + cashboxId;
         return "transfer-successful";
+    }
+
+    @PostMapping("/update/{cashboxId}")
+    public String update(@PathVariable Long cashboxId,
+                       @RequestParam("ucode") String code,
+                         Model model) {
+        Transfer transfer = transferService.update(cashboxId, code);
+        if (transfer != null) {
+            model.addAttribute("transfer", transfer);
+            return "transfer-update";
+        }
+        return "transfer-error";
     }
 }

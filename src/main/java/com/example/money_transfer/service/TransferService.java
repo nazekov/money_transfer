@@ -6,5 +6,5 @@ public interface TransferService {
 
     Transfer save(Transfer transfer, Long cashboxId);
 
-    Transfer changeStatus();
+    Transfer update(Long cashboxId, String code);
 }
