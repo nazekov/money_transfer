@@ -23,8 +23,6 @@ public class Transfer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Long number;
-
     String nameSender;
 
     String nameRecipient;
@@ -53,7 +51,12 @@ public class Transfer {
     @Column(nullable = false)
     Date createdDate;
 
+    @JsonFormat(pattern = "dd.MM.yyyy HH:mm:ss:S")
+    Date completedDate;
+
     @ManyToOne
     @JoinColumn(name = "cashbox_id", referencedColumnName = "id")
     Cashbox cashbox;
+
+    Long recipientCashboxId;
 }

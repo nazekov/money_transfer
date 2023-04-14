@@ -1,7 +1,6 @@
 package com.example.money_transfer.service.impl;
 
 import com.example.money_transfer.enums.Status;
-import com.example.money_transfer.mapper.TransferMapper;
 import com.example.money_transfer.model.Cashbox;
 import com.example.money_transfer.model.Transfer;
 import com.example.money_transfer.repository.TransferRepository;
@@ -44,7 +43,6 @@ public class TransferServiceImpl implements TransferService {
         transfer.setCashbox(cashbox);
 
         transfer = transferRepository.save(transfer);
-        transfer.setNumber(transfer.getId());
 
         transfer.setCommission(transfer.getMoney().multiply(new BigDecimal("0.05")));
         transfer.setTotalMoney(transfer.getMoney().add(transfer.getCommission()));
@@ -59,21 +57,20 @@ public class TransferServiceImpl implements TransferService {
         Long ucode = Long.valueOf(code);
 
         if (isAvailableTransfer(ucode)) {
-            Transfer transferFound = transferRepository
+            Transfer transfer = transferRepository
                             .findByStatusAndUniqueCodeEquals(Status.CREATED, ucode)
                             .orElseThrow(
                                 () -> new RuntimeException("transfer not found")
                             );
-            BigDecimal moneyTransfer = transferFound.getMoney();
+            BigDecimal moneyTransfer = transfer.getMoney();
 
-            balanceService.decrease(transferFound.getCashbox().getId(), moneyTransfer);
+            balanceService.decrease(transfer.getCashbox().getId(), moneyTransfer);
 
-            Transfer transfer = TransferMapper.INSTANCE.clone(transferFound);
-            transfer.setCreatedDate(new Date());
+            transfer.setCompletedDate(new Date());
             transfer.setStatus(Status.COMPLETED);
-            transfer.setCashbox(cashboxService.findById(cashboxId));
+            transfer.setRecipientCashboxId(cashboxId);
 
-            if (!cashboxId.equals(transferFound.getCashbox().getId())) {
+            if (!cashboxId.equals(transfer.getCashbox().getId())) {
                 balanceService.increase(cashboxId, moneyTransfer); // money came to cashbox
                 balanceService.decrease(cashboxId, moneyTransfer); // client got money
             }

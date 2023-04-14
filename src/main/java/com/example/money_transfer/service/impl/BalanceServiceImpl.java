@@ -8,6 +8,7 @@ import com.example.money_transfer.utils.DateUtil;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class BalanceServiceImpl implements BalanceService {
@@ -57,5 +58,10 @@ public class BalanceServiceImpl implements BalanceService {
         newBalance.setBalance(oldBalance.getBalance().subtract(money));
         newBalance.setCashbox(cashboxService.findById(cashboxId));
         return save(newBalance);
+    }
+
+    @Override
+    public List<Balance> findActualBalances() {
+        return balanceRepository.findByEndDate(DateUtil.getInstance().getEndDate());
     }
 }

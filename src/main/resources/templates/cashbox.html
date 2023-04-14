@@ -8,7 +8,7 @@
     <h1>Добро пожаловать в кассу</h1>
     <p th:text="'Касса ID: ' + ${cashbox.id}" />
     <p>Что вы желаете?</p>
-    <a th:href="@{/cashbox/form-send/{cashboxId}(cashboxId=${cashbox.id})}" th:text="'Отправить деньги '"></a>
-    <a th:href="@{/cashbox/form-get/{cashboxId}(cashboxId=${cashbox.id})}" th:text="'Получить деньги '"></a>
+    <a th:href="@{'/cashbox/form-send/' + ${cashbox.id}}" th:text="'Отправить деньги '"></a>
+    <a th:href="@{'/cashbox/form-get/' + ${cashbox.id}}" th:text="'Получить деньги '"></a>
 </body>
 </html>

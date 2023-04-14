@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Balances</title>
+</head>
+<body>
+    <div th:each="balance : ${balanceList}">
+        <p th:text="'Баланс кассы ' + ${balance.cashbox.id} + ': ' + ${balance.balance}" />
+    </div>
+    <a th:href="@{/}" th:text="'На главную страницу '"></a>
+</body>
+</html>

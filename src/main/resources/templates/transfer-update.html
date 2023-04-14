@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Клиент взял деньги</h1>
-    <p th:text="'Касса №: ' + ${transfer.cashbox.id}" />
+    <p th:text="'Касса №: ' + ${transfer.getRecipientCashboxId}" />
     <p th:text="'Сумма перевода: ' + ${transfer.money}" />
     <p th:text="'Коммиссия перевода: ' + ${transfer.commission}" />
     <p th:text="'Полный перевод с учетом коммиссии составил: ' + ${transfer.totalMoney}" />

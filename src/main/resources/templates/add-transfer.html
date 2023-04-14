@@ -7,7 +7,7 @@
 <body>
     <h1>Создать перевод</h1>
     <p th:text="'Касса ID: ' + ${cashbox.id}" />
-    <form th:object="${transfer}" method="post" th:action="@{/transfer/save/{cashboxId}(cashboxId=${cashbox.id})}">
+    <form th:object="${transfer}" method="post" th:action="@{'/transfer/save/' + ${cashbox.id}}">
         <p>
             <label for="nameSender">Имя отправителя</label>
             <input type="text" th:field="*{nameSender}" id="nameSender" name="nameSender" placeholder="Имя отправителя">
@@ -29,7 +29,6 @@
             <input type="text" th:field="*{money}" id="money" name="money" placeholder="Сумма перевода">
         </p>
 
-<!--        <form>-->
             <p>Выберите валюту:</p>
             <div>
                 <input type="radio" th:field="*{valuta}" id="som"
@@ -44,10 +43,7 @@
                        name="valuta" value="RUBLE">
                 <label for="rub">Ruble</label>
             </div>
-<!--            <div>-->
-<!--                <button type="submit">Отправить</button>-->
-<!--            </div>-->
-<!--        </form>-->
+
         <p>
             <label for="comment">Комментарий</label>
             <input type="text" th:field="*{comment}" id="comment" name="comment" placeholder="Комментарий">

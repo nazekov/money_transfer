@@ -11,5 +11,5 @@ public interface BalanceRepository extends JpaRepository<Balance, Long> {
 
     Balance findByCashbox_IdAndEndDateEquals(Long id, Date date);
 
-    List<Balance> findAllByCashbox_IdAndAndEndDate(Long id, Date date);
+    List<Balance> findByEndDate(Date date);
 }
