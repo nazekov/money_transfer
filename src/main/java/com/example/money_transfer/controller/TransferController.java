@@ -1,5 +1,6 @@
 package com.example.money_transfer.controller;
 
+import com.example.money_transfer.model.Cashbox;
 import com.example.money_transfer.model.Transfer;
 import com.example.money_transfer.service.CashboxService;
 import com.example.money_transfer.service.TransferService;
@@ -18,6 +19,21 @@ public class TransferController {
                               CashboxService cashboxService) {
         this.transferService = transferService;
         this.cashboxService = cashboxService;
+    }
+
+    @GetMapping("/form-send/{cashboxId}")
+    public String getViewForCreateTransfer(@PathVariable long cashboxId, Model model) {
+        Cashbox cashbox = cashboxService.findById(cashboxId);
+        model.addAttribute("cashbox", cashbox);
+        model.addAttribute("transfer", new Transfer());
+        return "add-transfer";
+    }
+
+    @GetMapping("/form-get/{cashboxId}")
+    public String getViewForGetMoney(@PathVariable long cashboxId, Model model) {
+        Cashbox cashbox = cashboxService.findById(cashboxId);
+        model.addAttribute("cashbox", cashbox);
+        return "form-get-money";
     }
 
     @PostMapping("/save/{cashboxId}")
