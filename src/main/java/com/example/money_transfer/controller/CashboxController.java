@@ -1,9 +1,7 @@
 package com.example.money_transfer.controller;
 
-import com.example.money_transfer.model.Balance;
 import com.example.money_transfer.model.Cashbox;
 import com.example.money_transfer.model.Transfer;
-import com.example.money_transfer.service.BalanceService;
 import com.example.money_transfer.service.CashboxService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,12 +16,8 @@ public class CashboxController {
 
     private final CashboxService cashboxService;
 
-    private final BalanceService balanceService;
-
-    public CashboxController(CashboxService cashboxService,
-                             BalanceService balanceService) {
+    public CashboxController(CashboxService cashboxService) {
         this.cashboxService = cashboxService;
-        this.balanceService = balanceService;
     }
 
     @GetMapping
@@ -53,12 +47,5 @@ public class CashboxController {
         Cashbox cashbox = cashboxService.findById(cashboxId);
         model.addAttribute("cashbox", cashbox);
         return "form-get-money";
-    }
-
-    @GetMapping("/balances")
-    public String getActualBalancesByCashbox(Model model) {
-        List<Balance> actualBalances = balanceService.findActualBalances();
-        model.addAttribute("balanceList", actualBalances);
-        return "cashboxes-balances";
     }
 }

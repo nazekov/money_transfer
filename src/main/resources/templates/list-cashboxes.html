@@ -7,9 +7,8 @@
 <body>
 
     <div th:each="cashbox : ${cashboxList}">
-
         <a th:href="@{'/cashbox/' + ${cashbox.id}}" th:text="'Cashbox: ' + ${cashbox.id}"></a>
-
     </div>
+    <a th:href="@{/}" th:text="'На главную страницу '"></a>
 </body>
 </html>
