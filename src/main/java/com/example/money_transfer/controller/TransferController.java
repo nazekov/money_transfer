@@ -7,8 +7,12 @@ import com.example.money_transfer.service.CashboxService;
 import com.example.money_transfer.service.TransferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-
+import java.beans.PropertyEditorSupport;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -22,6 +26,17 @@ public class TransferController {
                               CashboxService cashboxService) {
         this.transferService = transferService;
         this.cashboxService = cashboxService;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        binder.registerCustomEditor(LocalDate.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                setValue(LocalDate.parse(text, formatter));
+            }
+        });
     }
 
     @GetMapping("/form-send/{cashboxId}")
@@ -62,6 +77,22 @@ public class TransferController {
     @GetMapping("/all-info/{cashboxId}")
     public String getAllTransfers(@PathVariable Long cashboxId, Model model) {
         List<TransferDto> transferList = transferService.getAllTransfers(cashboxId);
+        model.addAttribute("transferList", transferList);
+        return "transfer-all-info";
+    }
+
+    @GetMapping("/find/{cashboxId}")
+    public String findAllTransfers(@PathVariable Long cashboxId, Model model) {
+        Cashbox cashbox = cashboxService.findById(cashboxId);
+        model.addAttribute("cashbox", cashbox);
+        return "transfer-find";
+    }
+
+    @PostMapping("/find/by-date/{cashboxId}")
+    public String findAllTransfersByDate(@PathVariable Long cashboxId,
+                                         @RequestParam("date") LocalDate date,
+                                         Model model) {
+        List<TransferDto> transferList = transferService.findAllTransfersByDate(cashboxId, date);
         model.addAttribute("transferList", transferList);
         return "transfer-all-info";
     }

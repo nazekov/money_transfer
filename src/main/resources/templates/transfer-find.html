@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Find form</title>
+</head>
+<body>
+    <h1>Поиск переводов по дате создания</h1>
+    <p th:text="'Касса ID: ' + ${cashbox.id}" />
+    <form th:action="@{'/transfer/find/by-date/' + ${cashbox.id}}" method="post">
+        <p>
+            <label for="date">Выберите дату создания</label>
+            <input type="date" id="date" name="date" placeholder="дата создания" required="required">
+        </p>
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>

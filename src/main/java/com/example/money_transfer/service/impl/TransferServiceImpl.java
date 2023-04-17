@@ -11,6 +11,10 @@ import com.example.money_transfer.service.CashboxService;
 import com.example.money_transfer.service.TransferService;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -99,6 +103,21 @@ public class TransferServiceImpl implements TransferService {
 
         transferDtos.addAll(transferDtosIsNot);
         return transferDtos;
+    }
+
+    @Override
+    public List<TransferDto> findAllTransfersByDate(Long cashboxId, LocalDate localDate) {
+        Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        SimpleDateFormat sdfDate = new SimpleDateFormat("dd.MM.yyyy");
+        String inputDateStr = sdfDate.format(date);
+
+        return getAllTransfers(cashboxId)
+                .stream()
+                .filter(transferDto -> {
+                    Date createdDate = transferDto.getCreatedDate();
+                    return inputDateStr.equals(sdfDate.format(createdDate));
+                })
+                .collect(Collectors.toList());
     }
 
     private boolean isAvailableTransfer(Long ucode) {

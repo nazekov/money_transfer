@@ -17,6 +17,9 @@
     <div>
         <a th:href="@{'/transfer/all-info/' + ${cashbox.id}}" th:text="'Посмотреть все переводы '"></a>
     </div>
+    <div>
+        <a th:href="@{'/transfer/find/' + ${cashbox.id}}" th:text="'Найти переводы '"></a>
+    </div>
     <a th:href="@{/}" th:text="'На главную страницу '"></a>
 </body>
 </html>

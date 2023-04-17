@@ -62,6 +62,7 @@ public class BalanceServiceImpl implements BalanceService {
 
     @Override
     public List<Balance> findActualBalances() {
-        return balanceRepository.findByEndDate(DateUtil.getInstance().getEndDate());
+//        return balanceRepository.findByEndDate(DateUtil.getInstance().getEndDate());
+        return balanceRepository.findByEndDateOrderByCashboxId(DateUtil.getInstance().getEndDate());
     }
 }
