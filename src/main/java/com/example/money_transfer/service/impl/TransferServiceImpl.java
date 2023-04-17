@@ -1,8 +1,10 @@
 package com.example.money_transfer.service.impl;
 
 import com.example.money_transfer.enums.Status;
+import com.example.money_transfer.mapper.TransferMapper;
 import com.example.money_transfer.model.Cashbox;
 import com.example.money_transfer.model.Transfer;
+import com.example.money_transfer.model.dto.TransferDto;
 import com.example.money_transfer.repository.TransferRepository;
 import com.example.money_transfer.service.BalanceService;
 import com.example.money_transfer.service.CashboxService;
@@ -10,6 +12,8 @@ import com.example.money_transfer.service.TransferService;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransferServiceImpl implements TransferService {
@@ -80,6 +84,21 @@ public class TransferServiceImpl implements TransferService {
         }
 
         return null;
+    }
+
+    @Override
+    public List<TransferDto> getAllTransfers(Long cashboxId) {
+        List<Transfer> allByCashbox_id = transferRepository.findAllByCashbox_Id(cashboxId);
+        List<TransferDto> transferDtos =
+                TransferMapper.INSTANCE.transferListToTransferDtoList(allByCashbox_id);
+
+        List<Transfer> allByCashboxIdIsNot = transferRepository.findAllByCashboxIdIsNot(cashboxId);
+        List<TransferDto> transferDtosIsNot
+                = TransferMapper.INSTANCE.transferListToTransferDtoList(allByCashboxIdIsNot);
+        transferDtosIsNot.forEach(transferDto -> transferDto.setUniqueCode("******"));
+
+        transferDtos.addAll(transferDtosIsNot);
+        return transferDtos;
     }
 
     private boolean isAvailableTransfer(Long ucode) {

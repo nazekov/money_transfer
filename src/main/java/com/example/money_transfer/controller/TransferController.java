@@ -2,11 +2,14 @@ package com.example.money_transfer.controller;
 
 import com.example.money_transfer.model.Cashbox;
 import com.example.money_transfer.model.Transfer;
+import com.example.money_transfer.model.dto.TransferDto;
 import com.example.money_transfer.service.CashboxService;
 import com.example.money_transfer.service.TransferService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/transfer")
@@ -54,5 +57,12 @@ public class TransferController {
             return "transfer-update";
         }
         return "transfer-error";
+    }
+
+    @GetMapping("/all-info/{cashboxId}")
+    public String getAllTransfers(@PathVariable Long cashboxId, Model model) {
+        List<TransferDto> transferList = transferService.getAllTransfers(cashboxId);
+        model.addAttribute("transferList", transferList);
+        return "transfer-all-info";
     }
 }
